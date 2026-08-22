@@ -1,0 +1,348 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* app/globals.css */
+
+/* ===========================
+   تعریف فونت وزیرمتن با @font-face
+   =========================== */
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/vazirmatn/Vazirmatn-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/vazirmatn/Vazirmatn-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/vazirmatn/Vazirmatn-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('/vazirmatn/Vazirmatn-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+:root {
+  /* Brand Colors — Tazcal Premium Purple */
+  --color-primary: #7A3CFF;
+  --color-primary-hover: #6A2EF2;
+  --color-primary-light: #A67CFF;
+  --color-secondary: #9356FF;
+  --color-accent: #FFB71A;
+  --color-accent-hover: #FF9800;
+  --color-premium: #FFD84D;
+
+  --color-background: #0B0715;
+
+  --color-surface: rgba(33,20,58,.72);
+  --color-surface-hover: rgba(44,28,74,.82);
+  --color-border: rgba(173,145,255,.18);
+
+  --color-text: #FFFFFF;
+  --color-text-secondary: rgba(255,255,255,.72);
+
+  --color-glow-purple: rgba(122,60,255,.45);
+  --color-glow-gold: rgba(255,183,26,.28);
+
+  /* shadcn tokens */
+  --background: 263 71% 5%;
+  --foreground: 0 0% 100%;
+  --card: 263 47% 12%;
+  --card-foreground: 0 0% 100%;
+  --popover: 263 47% 10%;
+  --popover-foreground: 0 0% 100%;
+  --primary: 263 100% 62%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 100% / 0.07;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 0 0% 100% / 0.06;
+  --muted-foreground: 0 0% 100% / 0.65;
+  --accent: 39 100% 55%;
+  --accent-foreground: 0 0% 0%;
+  --destructive: 355 100% 68%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 263 100% 86% / 0.18;
+  --input: 0 0% 100% / 0.10;
+  --ring: 263 100% 62%;
+  --radius: 0.75rem;
+
+  --chart-1: 263 100% 62%;
+  --chart-2: 142 58% 56%;
+  --chart-3: 355 100% 68%;
+  --chart-4: 39 100% 55%;
+  --chart-5: 262 83% 58%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-family: 'Vazirmatn', 'Inter', system-ui, -apple-system, sans-serif;
+    font-feature-settings: "cv11", "ss01";
+    font-variation-settings: "opsz" 32;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: rgba(122, 60, 255, 0.3);
+    color: #fff;
+  }
+
+  *:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-background), 0 0 0 4px var(--color-primary);
+    border-radius: 8px;
+  }
+
+  /* Custom scrollbar — thin, rounded, purple, premium */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(122, 60, 255, 0.3);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(122, 60, 255, 0.5);
+  }
+  scrollbar-width: thin;
+  scrollbar-color: rgba(122, 60, 255, 0.3) transparent;
+}
+
+@layer components {
+  .glass {
+    background: rgba(33,20,58,.72);
+    backdrop-filter: blur(34px) saturate(180%);
+    -webkit-backdrop-filter: blur(34px) saturate(180%);
+    border: 1px solid rgba(173,145,255,.18);
+    box-shadow:
+      0 12px 40px rgba(0,0,0,.28),
+      0 0 60px rgba(122,60,255,.08),
+      inset 0 1px 0 rgba(255,255,255,.16);
+  }
+
+  .glass-hover {
+    transition: all 0.25s ease-out;
+  }
+  .glass-hover:hover {
+    background: rgba(44,28,74,.82);
+    border-color: rgba(173,145,255,.30);
+    transform: translateY(-2px);
+    box-shadow:
+      0 16px 48px rgba(0,0,0,.32),
+      0 0 60px rgba(122,60,255,.16),
+      inset 0 1px 0 rgba(255,255,255,.20);
+  }
+
+  .glass-glow {
+    box-shadow:
+      0 12px 40px rgba(0,0,0,.28),
+      0 0 60px rgba(122,60,255,.20),
+      inset 0 1px 0 rgba(255,255,255,.16);
+  }
+
+  .glass-glow-gold {
+    box-shadow:
+      0 12px 40px rgba(0,0,0,.28),
+      0 0 60px rgba(255,183,26,.20),
+      inset 0 1px 0 rgba(255,255,255,.16);
+  }
+
+  .mesh-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 18% 22%, rgba(122,60,255,.22), transparent 42%),
+      radial-gradient(circle at 78% 30%, rgba(255,183,26,.10), transparent 34%),
+      radial-gradient(circle at 72% 78%, rgba(147,86,255,.18), transparent 40%),
+      linear-gradient(180deg, #1A0F2E 0%, #150A26 45%, #0B0715 100%);
+  }
+
+  .mesh-bg::before,
+  .mesh-bg::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.35;
+    will-change: transform;
+  }
+
+  .mesh-bg::before {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, #7A3CFF, transparent 70%);
+    top: -10%;
+    left: -10%;
+    animation: float-orb-1 20s ease-in-out infinite;
+  }
+
+  .mesh-bg::after {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, #9356FF, transparent 70%);
+    bottom: -10%;
+    right: -5%;
+    animation: float-orb-2 25s ease-in-out infinite;
+  }
+
+  .mesh-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.20;
+    will-change: transform;
+  }
+
+  .starfield {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: #fff;
+    opacity: 0;
+    will-change: transform, opacity;
+    animation: twinkle var(--dur, 4s) ease-in-out infinite;
+    animation-delay: var(--delay, 0s);
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: var(--max-opacity, 0.8); transform: scale(1); }
+  }
+
+  @keyframes drift {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-2000px); }
+  }
+
+  .placeholder-asset {
+    border: 2px dashed rgba(173,145,255,.20);
+    border-radius: 20px;
+    background: rgba(33,20,58,.40);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: rgba(255,255,255,.40);
+    font-size: 13px;
+    text-align: center;
+    padding: 24px;
+    transition: all 0.2s ease-out;
+    min-height: 200px;
+  }
+
+  .placeholder-asset:hover {
+    border-color: rgba(173,145,255,.35);
+    background: rgba(33,20,58,.55);
+    color: rgba(255,255,255,.55);
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+background: linear-gradient(135deg, #8134AF 0%, #515BD4 100%);    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .text-gradient-premium {
+    background: linear-gradient(135deg, #FFD84D 0%, #FFB71A 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .glow-primary {
+    box-shadow: 0 0 30px -4px rgba(122,60,255,.50);
+  }
+
+  .glow-gold {
+    box-shadow: 0 0 20px -4px rgba(255,183,26,.40);
+  }
+
+  .glow-text {
+    text-shadow: 0 0 30px rgba(122,60,255,.50);
+  }
+
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+@keyframes float-orb-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(60px, 40px) scale(1.1); }
+}
+@keyframes float-orb-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-50px, -30px) scale(1.15); }
+}
+@keyframes float-phone {
+  0%, 100% { transform: translateY(0) rotateY(-2deg); }
+  50% { transform: translateY(-12px) rotateY(2deg); }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.7; }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-float-phone {
+  animation: float-phone 6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+[dir="rtl"] {
+  text-align: right;
+}
