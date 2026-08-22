@@ -41,7 +41,7 @@ function getStoresForLocale(locale: string): StoreConfig[] {
         descKey: 'download.myketDesc',
         available: true,
         icon: '/images/appsIcon/mayket.svg',
-        url: 'https://myket.ir/app/com.tazcal.app', // لینک واقعی مایکت
+        url: 'https://myket.ir/app/com.tazcal.fa', // لینک واقعی مایکت
       },
       {
         key: 'cafeBazaar',
@@ -60,7 +60,7 @@ function getStoresForLocale(locale: string): StoreConfig[] {
         name: 'RuStore',
         descKey: 'download.ruStoreDesc',
         available: false,
-        icon: '/images/appsIcon/rustore.svg',
+        icon: '/images/appsIcon/Rustore.svg',
         url: '#',
       },
     ];
@@ -71,7 +71,7 @@ function getStoresForLocale(locale: string): StoreConfig[] {
       name: 'Google Play',
       descKey: 'download.googlePlayDesc',
       available: false,
-      icon: '/images/appsIcon/googlePlay.svg',
+      icon: '/images/appsIcon/GooglePlay.svg',
       url: '#',
     },
     {
@@ -79,7 +79,7 @@ function getStoresForLocale(locale: string): StoreConfig[] {
       name: 'App Store',
       descKey: 'download.appStoreDesc',
       available: false,
-      icon: '/images/appsIcon/appStore.svg',
+      icon: '/images/appsIcon/AppStore.svg',
       url: '#',
     },
   ];

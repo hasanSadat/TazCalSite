@@ -415,7 +415,7 @@ export function PlannerCards() {
 // ============================================================
 export function HabitCards() {
   const { t, locale } = useLocale();
-  const isRTL = locale === 'fa' || locale === 'ar';
+  const isRTL = false
 
   const habits = [
     { id: 'meditation', titleKey: 'habits.meditation', done: true, streak: 1,

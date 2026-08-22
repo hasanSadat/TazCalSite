@@ -25,7 +25,7 @@ function getStoresForLocale(locale: string): StoreConfig[] {
         descKey: 'download.myketDesc',
         available: true,
         icon: '/images/appsIcon/mayket.svg',
-        url: 'https://myket.ir/app/com.tazcal.app',
+        url: 'https://myket.ir/app/com.tazcal.fa',
       },
       {
         key: 'cafeBazaar',
@@ -142,12 +142,12 @@ const hasAvailableStore = stores.some(s => s.available);
               </div>
 
               {/* اطلاع‌رسانی iOS */}
-              {locale !== 'fa' && (
+              {/* {locale !== 'fa' && (
                 <div className="mt-6 text-sm text-white/40 flex items-center justify-center gap-2">
                   <Sparkles className="w-4 h-4 text-tazcal-primary" />
                   {t('download.iOSComingSoon') || 'نسخه iOS به‌زودی منتشر می‌شود.'}
                 </div>
-              )}
+              )} */}
             </div>
           </GlassCard>
         </Reveal>
