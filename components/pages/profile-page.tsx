@@ -1,16 +1,24 @@
 'use client';
 
 import { GlassCard } from '@/components/ui/glass-card';
-import { PrimaryButton } from '@/components/ui/buttons';
 import { Reveal } from '@/components/ui/reveal';
 import { useLocale } from '@/components/providers/locale-provider';
-import { Sparkles, LogOut, Globe, ChevronDown, Check, RefreshCw, Smartphone } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { createClient } from '@/lib/supabase/client';
+import { LogOut, Globe, ChevronDown, Check, RefreshCw, Smartphone } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { languages } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
+import type { ProfileRow } from '@/lib/supabase/types';
 
-export function ProfilePage() {
+interface ProfilePageProps {
+  profile: ProfileRow;
+  email: string;
+}
+
+export function ProfilePage({ profile, email }: ProfilePageProps) {
   const { t, locale, setLocale } = useLocale();
+  const router = useRouter();
   const [langOpen, setLangOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -22,16 +30,15 @@ export function ProfilePage() {
     return () => document.removeEventListener('mousedown', onClick);
   }, []);
 
-  // Mock profile data — NEEDED: real auth integration
-  const isPro = false;
-  const profile = {
-    name: 'NEEDED: user name',
-    email: 'NEEDED: user email',
-    plan: isPro ? t('profile.pro') : t('profile.free'),
-    expiration: isPro ? 'NEEDED: expiration date' : null,
-    syncStatus: t('profile.synced'),
-    devices: ['NEEDED: device list'],
+  const handleLogout = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push('/');
+    router.refresh();
   };
+
+  const displayName = profile.full_name || profile.username || 'User';
+  const userRole = profile.role === 'admin' ? 'Admin' : t('profile.free');
 
   return (
     <div className="px-4 pt-32 pb-24 sm:px-6">
@@ -40,43 +47,22 @@ export function ProfilePage() {
           <GlassCard glow className="p-8">
             {/* Header */}
             <div className="flex flex-col items-center text-center sm:flex-row sm:text-start gap-6">
-              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-tazcal-primary to-tazcal-glow text-2xl font-bold text-white shadow-[0_0_30px_-4px_rgba(122,90,248,0.5)]">
-                T
+              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-tazcal-primary to-tazcal-secondary text-2xl font-bold text-white shadow-[0_0_30px_-4px_rgba(122,90,248,0.5)]">
+                {displayName.charAt(0).toUpperCase()}
               </div>
               <div className="flex-1">
-                <div className="flex items-center gap-2 justify-center sm:justify-start">
-                  <h1 className="text-xl font-bold text-white">{profile.name}</h1>
-                  {isPro && (
-                    <span className="flex items-center gap-1 rounded-full bg-gradient-to-r from-yellow-400 to-amber-500 px-2.5 py-0.5 text-xs font-bold text-black shadow-[0_0_15px_rgba(250,204,21,0.4)]">
-                      <Sparkles className="h-3 w-3" />
-                      {t('profile.pro')}
-                    </span>
-                  )}
-                </div>
-                <p className="mt-1 text-sm text-white/55">{profile.email}</p>
-                <p className="mt-1 text-xs text-white/40">{t('profile.plan')}: {profile.plan}</p>
+                <h1 className="text-xl font-bold text-white">{displayName}</h1>
+                <p className="mt-1 text-sm text-white/55">{email}</p>
+                <p className="mt-1 text-xs text-white/40">
+                  {t('profile.plan')}: {userRole}
+                </p>
+                {profile.preferred_language && (
+                  <p className="mt-1 text-xs text-white/40">
+                    {t('profile.language')}: {languages.find((l) => l.code === profile.preferred_language)?.name || profile.preferred_language}
+                  </p>
+                )}
               </div>
             </div>
-
-            {/* Upgrade banner for Free users */}
-            {!isPro && (
-              <div className="mt-6 rounded-2xl glass p-5 text-center">
-                <p className="text-sm text-white/65">{t('profile.upgradeTitle')}</p>
-                <a href="/pricing" className="mt-3 inline-block">
-                  <PrimaryButton className="px-5 py-2 text-sm">
-                    <Sparkles className="h-4 w-4" />
-                    {t('profile.upgradeCta')}
-                  </PrimaryButton>
-                </a>
-              </div>
-            )}
-
-            {/* Pro expiration */}
-            {isPro && profile.expiration && (
-              <div className="mt-4 text-center text-xs text-white/45">
-                {t('profile.proExpires')}: {profile.expiration}
-              </div>
-            )}
           </GlassCard>
         </Reveal>
 
@@ -89,7 +75,7 @@ export function ProfilePage() {
                 <RefreshCw className="h-4 w-4 text-tazcal-success" />
                 <h3 className="text-sm font-semibold text-white">{t('profile.syncStatus')}</h3>
               </div>
-              <p className="text-xs text-white/55">{profile.syncStatus}</p>
+              <p className="text-xs text-white/55">{t('profile.synced')}</p>
             </GlassCard>
 
             {/* Connected devices */}
@@ -98,17 +84,16 @@ export function ProfilePage() {
                 <Smartphone className="h-4 w-4 text-tazcal-primary" />
                 <h3 className="text-sm font-semibold text-white">{t('profile.connectedDevices')}</h3>
               </div>
-              <p className="text-xs text-white/55">{profile.devices.join(', ') || t('profile.noDevices')}</p>
+              <p className="text-xs text-white/55">{t('profile.noDevices')}</p>
             </GlassCard>
           </div>
         </Reveal>
 
-        {/* Preferences — Language only (no theme toggle) */}
+        {/* Preferences — Language */}
         <Reveal delay={0.15}>
           <GlassCard className="mt-6 p-6">
             <h3 className="mb-4 text-sm font-semibold text-white">{t('profile.preferences')}</h3>
 
-            {/* Language */}
             <div>
               <label className="mb-2 block text-xs text-white/50">{t('profile.language')}</label>
               <div className="relative" ref={ref}>
@@ -147,16 +132,15 @@ export function ProfilePage() {
         {/* Logout */}
         <Reveal delay={0.2}>
           <div className="mt-6 text-center">
-            <button className="inline-flex items-center gap-2 rounded-2xl glass glass-hover px-6 py-3 text-sm font-medium text-white/65 hover:text-tazcal-danger transition-colors">
+            <button
+              onClick={handleLogout}
+              className="inline-flex items-center gap-2 rounded-2xl glass glass-hover px-6 py-3 text-sm font-medium text-white/65 hover:text-tazcal-danger transition-colors"
+            >
               <LogOut className="h-4 w-4" />
               {t('profile.logout')}
             </button>
           </div>
         </Reveal>
-
-        <p className="mt-6 text-center text-xs text-white/30">
-          {t('profile.placeholder')}
-        </p>
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://tazcal.com';
   const routes = [
     '', '/features', '/ai', '/pricing', '/download', '/blog',
-    '/blog/admin', '/support', '/about', '/login', '/privacy', '/terms',
+    '/support', '/about', '/privacy', '/terms',
     '/changelog', '/feature-requests', '/roadmap',
   ];
 
